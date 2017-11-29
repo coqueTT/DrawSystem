@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="250" key="selection"/>
+		<item value="true" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="270"/>
+			<item value="250"/>
+			<item value="cut"/>
+			<item value="Color"/>
+			<item value="getFillColor"/>
+			<item value="getFill"/>
+			<item value="getFillcolor"/>
+			<item value="color"/>
+		</list>
+		<list key="replacehistory">
+			<item value="250"/>
+			<item value="270"/>
+			<item value="Shadow"/>
+			<item value="Line"/>
+			<item value="49"/>
+			<item value="colorManager"/>
+			<item value="ColorChangeManager"/>
+			<item value="Green"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="459" key="DIALOG_WIDTH"/>
+		<item value="1|Yu Gothic UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Yu Gothic UI" key="DIALOG_FONT_NAME"/>
+		<item value="523" key="DIALOG_HEIGHT"/>
+		<item value="1417" key="DIALOG_X_ORIGIN"/>
+		<item value="257" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

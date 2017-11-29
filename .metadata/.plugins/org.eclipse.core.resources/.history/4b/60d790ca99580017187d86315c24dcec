@@ -1,0 +1,189 @@
+package drawSystem;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
+import ColorItem.*;
+import Menu.EditMenu;
+import Menu.FileMenu;
+import StateManager.*;
+
+public class MyApplication extends JFrame{
+	StateManager stateManager;
+	MyCanvas canvas;
+	
+	public MyApplication() {
+		super("My Paint Application");
+		
+		canvas = new MyCanvas();
+		canvas.setBackground(Color.white);
+		
+		stateManager = new StateManager(canvas);
+		
+		
+		//全体のレイアウト→border
+		//north→nJp
+		JPanel nJp = new JPanel();
+		nJp.setLayout(new FlowLayout());
+		
+		//west->wJp
+		JPanel wJp = new JPanel();
+		wJp.setLayout(new BoxLayout(wJp, BoxLayout.Y_AXIS));
+		
+		//wJp内のパネル3種
+		//1.モード選択
+		//2.ボタンのレイアウト
+		//3.線のパラメータ
+		//図形ボタンのレイアウトbJp
+		JPanel bJp = new JPanel();
+		bJp.setLayout(new GridLayout(0, 2, 1, 10));
+		bJp.setMaximumSize(new Dimension(300, 250));
+		//罫線でかこむ
+		bJp.setBorder(new TitledBorder(new EtchedBorder(), "図形"));
+		
+		//モード選択のレイアウトmJp
+		JPanel mJp = new JPanel();
+		mJp.setLayout(new GridLayout(0, 1));
+		mJp.setMaximumSize(new Dimension(300, 80));
+		mJp.setBorder(new TitledBorder(new EtchedBorder(), "モードの選択"));
+		
+		//線の種類のレイアウトlJp
+		JPanel lJp = new JPanel();
+		lJp.setLayout(new GridLayout(0,1));
+		lJp.setMaximumSize(new Dimension(200,150));
+		lJp.setBorder(new TitledBorder(new EtchedBorder(), "線の設定"));
+		
+		
+		//wJpに配置
+		wJp.add(mJp);
+		wJp.add(bJp);
+		wJp.add(lJp);
+		
+		//<ボタンの追加>
+		
+		//モード選択
+		//モード
+		//図形
+		FigureMode figureMode = new FigureMode(stateManager);
+		figureMode.setSelected(true);
+		mJp.add(figureMode);
+		//選択
+		SelectBox selectMode = new SelectBox(stateManager);
+		mJp.add(selectMode);
+		
+		ButtonGroup modeGroup = new ButtonGroup();
+		modeGroup.add(figureMode);
+		modeGroup.add(selectMode);
+		//図形
+		
+		TriangleButton triangleButton = new TriangleButton(stateManager);
+		bJp.add(triangleButton);
+		
+		RectButton rectButton = new RectButton(stateManager);
+		bJp.add(rectButton);
+		
+		OvalButton ovalButton = new OvalButton(stateManager);
+		bJp.add(ovalButton);
+		
+		OctagonalButton octagonalButton = new OctagonalButton(stateManager);
+		bJp.add(octagonalButton);
+		
+		HexagramButton hexagramButton = new HexagramButton(stateManager);
+		bJp.add(hexagramButton);
+		
+		HeartButton heartButton = new HeartButton(stateManager);
+		bJp.add(heartButton);
+		
+		
+		//破線
+		DashBox dashButton = new DashBox(stateManager);
+		lJp.add(dashButton);
+		
+		//影
+		ShadowBox shadowButton = new ShadowBox(stateManager);
+		lJp.add(shadowButton);
+		
+		//LineWidth
+		JPanel lineJp = new JPanel();
+		lineJp.setLayout(new GridLayout(2,2));
+		JLabel lineWidth = new JLabel("線の太さ");
+		LineWidthField lineWidthField = new LineWidthField(stateManager);
+		lineJp.add(lineWidth);
+		lineJp.add(lineWidthField);
+		
+		//nLine
+		
+		NLineField nLineField = new NLineField(stateManager);
+		lJp.add(nLineField);
+		
+		lJp.add(lineJp);
+		//MenuBar
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		//FileをMenuBarに追加
+		FileMenu fileMenu = new FileMenu(canvas);
+		menuBar.add(fileMenu);
+		
+		//EditをMenuBarに追加
+		EditMenu editMenu = new EditMenu(canvas);
+		menuBar.add(editMenu);
+		
+		
+		//</ボタンの追加>
+		
+		
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(nJp, BorderLayout.NORTH);
+		getContentPane().add(wJp, BorderLayout.WEST);
+		getContentPane().add(canvas, BorderLayout.CENTER);
+		
+		canvas.addMouseListener(new MouseAdapter(){
+			//クリックで現在のStateのmousePressedを呼び出す
+			@Override
+			public void mousePressed(MouseEvent e){
+				if(e.getButton() == MouseEvent.BUTTON1)
+					stateManager.mouseDown(e.getX(), e.getY());
+				else  {
+					JPopupMenu popup = new EditMenu(canvas).getPopupMenu();
+					popup.show(e.getComponent(), e.getX(), e.getY());
+					}
+					
+			}
+			public void mouseReleased(MouseEvent e){
+				if(e.getButton() == MouseEvent.BUTTON1)
+					stateManager.mouseUp(e.getX(), e.getY());
+			}
+		});
+	
+		canvas.addMouseMotionListener(new MouseAdapter(){
+			@Override
+			public void mouseDragged(MouseEvent e){
+				if(javax.swing.SwingUtilities.isLeftMouseButton(e))
+					stateManager.mouseDrag(e.getX(), e.getY());
+			}
+		});
+		
+		//Window処理
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		});
+		
+	}
+	public Dimension getPreferredSize() {
+		return new Dimension(1000, 600);
+	}
+
+	public static void main(String[] args){
+		MyApplication app = new MyApplication();
+		app.pack();
+		app.setVisible(true);
+	}
+		
+}

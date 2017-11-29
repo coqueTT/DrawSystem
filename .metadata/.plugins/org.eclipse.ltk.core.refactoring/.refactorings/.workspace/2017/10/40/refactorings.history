@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DrawSystem_Copy&apos; to &apos;DrawSystem&apos;" description="Rename resource &apos;DrawSystem_Copy&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/DrawSystem_Copy" name="DrawSystem" stamp="1507360391451" updateReferences="true"/>
+</session>
